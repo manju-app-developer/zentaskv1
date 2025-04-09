@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Zentask AI — Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js" defer></script>
+    <style>
+      @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fade-in 0.6s ease-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800 font-sans relative">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 bg-white shadow-md flex items-center justify-between px-4 py-3 border-b border-gray-200">
+      <h1 class="text-xl font-bold text-blue-600">Zentask AI</h1>
+      <button onclick="logout()" class="text-sm text-red-500 hover:underline">Logout</button>
+    </header>
+
+    <!-- Motivational Message -->
+    <section class="px-4 pt-6">
+      <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-xl shadow-md animate-fade-in">
+        <h2 class="text-xl font-semibold">Let’s become the better version of yourself 💪</h2>
+        <p class="text-sm mt-1 opacity-90">Stay consistent. You’re doing great!</p>
+      </div>
+    </section>
+
+    <!-- Task List -->
+    <main class="p-4 pb-28" id="task-list">
+      <div id="tasks-container" class="mt-4 space-y-4">
+        <!-- Tasks will be rendered here dynamically -->
+      </div>
+    </main>
+
+    <!-- Add Task Popup -->
+    <div id="add-task-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-xl w-[90%] max-w-md shadow-lg animate-fade-in">
+        <h3 class="text-lg font-bold mb-4 text-gray-700">Add New Task</h3>
+        <input type="text" id="task-title" placeholder="Task Title" class="w-full mb-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <textarea id="task-desc" placeholder="Task Description" class="w-full mb-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+        <input type="date" id="task-deadline" class="w-full mb-4 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <div class="flex justify-between">
+          <button onclick="closeAddPopup()" class="text-gray-500 hover:underline">Cancel</button>
+          <button onclick="addTask()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save Task</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white shadow-md border-t border-gray-200 z-10">
+      <div class="flex justify-around text-sm text-gray-600">
+        <a href="homepage.html" class="w-full py-3 flex flex-col items-center hover:text-blue-600 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6" />
+          </svg>
+          Home
+        </a>
+        <a href="profile.html" class="w-full py-3 flex flex-col items-center hover:text-blue-600 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.757 6.879 2.051M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          Profile
+        </a>
+        <a href="#" onclick="openAddPopup()" class="w-full py-3 flex flex-col items-center text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Add
+        </a>
+        <a href="explore.html" class="w-full py-3 flex flex-col items-center hover:text-blue-600 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l-4-4m0 0l4-4m-4 4h16" />
+          </svg>
+          Explore
+        </a>
+        <a href="settings.html" class="w-full py-3 flex flex-col items-center hover:text-blue-600 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4m0 0c0 2.21 1.79 4 4 4m0 0c2.21 0 4-1.79 4-4m0 0c0-2.21-1.79-4-4-4m0-4v4m0 8v4m-4-4H4m16 0h-4" />
+          </svg>
+          Settings
+        </a>
+      </div>
+    </nav>
+  </body>
+</html>

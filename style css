@@ -1,0 +1,91 @@
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease;
+}
+/* style.css */
+
+/* Fade-in animation for smooth content load */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal backdrop blur and animation */
+#taskModal {
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Smooth button interaction */
+button {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Bottom nav styling */
+.bottom-nav {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  z-index: 50;
+}
+
+.bottom-nav .nav-item {
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.bottom-nav .nav-item:hover {
+  color: #2563eb;
+}
+
+.bottom-nav .nav-item.active {
+  color: #2563eb;
+}
+
+/* Add Task Button glow */
+.add-task-button {
+  box-shadow: 0 10px 15px rgba(37, 99, 235, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.add-task-button:hover {
+  box-shadow: 0 15px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* Responsive grid tweaks */
+@media (max-width: 640px) {
+  .task-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .task-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .task-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
